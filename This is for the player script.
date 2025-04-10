@@ -1,0 +1,48 @@
+*Player Code*
+using UnityEngine;
+
+public class PlayerControl : MonoBehaviour
+{
+
+    [SerializeField]
+    private float _speed = 5.0f;
+    [SerializeField]
+    private Rigidbody2D _rb;
+    [SerializeField]
+    private float jumpForce = 10.0f;
+    [SerializeField]
+    private bool canJump = true;
+    void Start()
+    {
+
+    }
+
+
+    void Update()
+    {
+
+        var horiz = Input.GetAxis("Horizontal");
+
+        transform.Translate(horiz * _speed * Time.deltaTime, 0, 0);
+
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && canJump == true)
+        {
+            Jump();
+        }
+
+    }
+    void Jump()
+    {
+        _rb.linearVelocity = new Vector2(0, jumpForce);
+        canJump = false;
+    }
+    void OnCollisionEnter2D(Collision2D col) 
+    {
+        canJump = true;
+    }
+    void OnCollisionExit2D(Collision2D col)
+    {
+        canJump = false;
+    }
+}
+
